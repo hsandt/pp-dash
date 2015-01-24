@@ -67,7 +67,12 @@ Pinpon_dash.getDoorNumber_from_nowTime = function() {
 // プレイヤーの位置を調整する
 Pinpon_dash.set_player_position = function() {
 	var img = document.getElementById("door" + Pinpon_dash.getDoorNumber_from_nowTime());
-	this.character1.style.cssText = ("top:" + img.offsetTop + "px;left:" + (img.offsetLeft - 5) + "px;");
+	// var img = document.getElementById("floor2-2");
+	this.character1.style.cssText = "top:" + img.offsetParent.offsetTop + "px; left:" + (img.offsetParent.offsetLeft - 5) + "px; position: absolute;";
+	// this.character1.style.cssText = "top:" + img.style.top + "px;left:" + (img.style.left - 5) + "px;";
+	// Pinpon_dash.character1.style.left = img.offsetParent.offsetLeft + "px;"  // does not work!
+	// this.character1.style.cssText = "top: 20px; left: 150px; position: absolute;";
+
 }
 
 // フェーズ変更
@@ -164,8 +169,8 @@ Pinpon_dash.render = function() {
 	this.character1.style.visibility = "visible";
 	
 	// debug.log(Pinpon_dash.now_msec)
-	// character1.style.left = "58px";
-	character1.style.top = "20px";
+	// this.character1.style.left = "158px";
+	// this.character1.style.top = "20px";
 }
 
 window.onload = function() {
