@@ -59,8 +59,7 @@ Pinpon_dash.getDoorNumber_from_nowTime = function() {
 Pinpon_dash.set_player_position = function() {
 	var player_icon = document.getElementById("player-icon-area");
 	var img =document.getElementById("door" + Pinpon_dash.getDoorNumber_from_nowTime());
-	player_icon.style.top = img.style.top;
-	player_icon.style.left = img.style.left - 5;
+	player_icon.style.cssText = ("top:" + img.offsetTop + "px;left:" + (img.offsetLeft - 5) + "px;");
 }
 
 // フェーズ変更
@@ -141,7 +140,7 @@ Pinpon_dash.check_is_non_open_door = function() {
 	// 押したボタンの情報を初期化
 	Pinpon_dash.user_knock_pushed = new Array();
 	Pinpon_dash.user_open_pushed = new Array();
-	var imgs = document.getElementsByTagName("img");
+	var imgs = document.getElementsByClassName("door");
 	for(var i = 0; i < imgs.length; i ++)
 		imgs[i].src = "img/closed_door.jpg";
 }
