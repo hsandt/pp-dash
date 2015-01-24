@@ -1,0 +1,163 @@
+@charset "UTF-8";
+/* ######################################################
+ * symple.css (Markdown to HTML)
+ *
+ * (C) 2014- Morokuma
+ * http://mh0406.so.land.to/
+ * ------------------------------------------------------
+ * #特徴
+ * + スマートフォンからPCまでの幅広い画面幅に対応しています。
+ * + HTML4/HTML5に対応しています。
+ * + ブラウザーによる文字サイズ変更が可能です。
+ * + 余分なデザインが無いので、他のCSSと組み合わせるのに有効です。
+ *
+ * ###################################################### */
+
+
+/* 初期化
+========================================================= */
+body {
+	color: #000000; background-color: #FFFFFF;
+}
+
+div, header, footer, article, aside, nav, section,
+h1, h2, h3, h4, h5, h6,
+ul, ol, menu, li, dl, dt, dd,
+table, caption, thead, tfoot, tbody, tr, th, td,
+form, fieldset, legend,
+p, pre, blockquote, address {
+	margin: 0; padding: 0;
+	color: #000000; background-color: transparent;
+	font-size: 1.0em; font-weight: normal; font-style: normal;
+	font-family: Verdana,"游ゴシック",YuGothic,"ヒラギノ角ゴ ProN W3","Hiragino Kaku Gothic ProN","メイリオ",Meiryo,"Helvetica Neue",Helvetica,Arial,sans-serif;
+	line-height: 1.5em; letter-spacing:0.1em; text-align: left;
+	border-style: none;
+}
+
+/* HTMLの互換性対策
+========================================================= */
+/* ボックスから要素がはみ出ないようにする
+--------------------------------------------------------- */
+/* ### テーブル以外のHTML要素(word-wrapプロパティで折り返す) */
+div, header, footer, article, aside, nav, section,
+h1, h2, h3, h4, h5, h6,
+ul, ol, menu, li, dl, dt, dd,
+form, fieldset, legend,
+p, pre, blockquote, address {
+	word-wrap: break-word;
+}
+
+/* ### テーブル要素(word-break要素で折り返す) */
+table, caption, thead, tfoot, tbody, tr, th, td {
+	word-break: break-all;
+}
+
+/* 文字サイズや太字・斜体等のばらつきの防止
+--------------------------------------------------------- */
+small {font-size: 0.83em;}
+rt {font-size: 0.5em;}
+b, strong {font-weight: bold; font-style: normal;}
+i, em {font-weight: normal; font-style: italic;}
+
+/* 等幅フォントで表示する要素
+========================================================= */
+q, blockquote, cite, pre, code, samp, kbd {
+	font-weight: normal; font-style: normal;
+	font-family:"Osaka－等幅",Osaka-mono,"ＭＳ ゴシック","MS Gothic",Monaco,Andale Mono,Courier New,monospace;
+}
+
+/* リンク色
+========================================================= */
+a:link     {color: #0000FF;}
+a:visited  {color: #EE0000;}
+a:active   {color:#008A00;}
+a:hover    {color:#004580;}
+
+/* ページ全体の大きさ設定
+========================================================= */
+#container {width: 100%;}
+/* 画面サイズが240PXまで拡大可能なら拡大
+--------------------------------------------------------- */
+@media screen and (max-width: 240px) {
+	#container {width: 240px;}
+}
+
+/* 画面サイズが320PXまで拡大可能なら拡大
+--------------------------------------------------------- */
+@media screen and (max-width: 320px) {
+	#container {width: 320px;}
+}
+
+/* 画面サイズが480PXまで拡大可能なら拡大
+--------------------------------------------------------- */
+@media screen and (max-width: 480px) {
+	#container {width: 480px;}
+}
+
+/* 画面サイズが640PXまで拡大可能なら拡大
+--------------------------------------------------------- */
+@media screen and (max-width: 640px) {
+	#container {width: 640px;}
+}
+
+/* 画面サイズが768PXまで拡大可能なら拡大
+--------------------------------------------------------- */
+@media screen and (max-width: 768px) {
+	#container {width: 768px;}
+}
+
+/* 画面サイズが800PXまで拡大可能なら拡大
+--------------------------------------------------------- */
+@media screen and (max-width: 800px) {
+	#container {width: 800px;}
+}
+
+/* 画面サイズが960PXまで拡大可能なら拡大
+--------------------------------------------------------- */
+@media screen and (max-width: 960px) {
+	#container {width: 960px;}
+}
+
+
+/* コンテナの設定
+========================================================= */
+header, footer, #content {
+	margin:0 0.5em; padding:0 0.5em;
+}
+
+
+/* 見出し
+========================================================= */
+/* 見出し系要素を太字にする
+--------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6,
+dt, caption, th, figcaption, legend {
+	font-weight: bold;
+}
+
+/* 見出し毎にフォントサイズを指定
+--------------------------------------------------------- */
+h1 {font-size: 1.5em;}
+h2, h3 {font-size: 1.33em;}
+h4, h5, h6, dt, caption {font-size: 1.16em;}
+
+
+/* リスト
+========================================================= */
+li {margin-left: 2em;}
+dd {margin-left: 4em;}
+
+
+/* テーブル
+========================================================= */
+table {
+	margin:0.5em 0;
+	border-collapse: collapse;
+}
+
+
+/* 段落等
+========================================================= */
+/* 段落。1文字字下げ
+--------------------------------------------------------- */
+p, address, blockquote {text-indent: 1em;}
