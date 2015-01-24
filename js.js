@@ -3,7 +3,6 @@
  * Global Game Jum 2015 in Tokyo chika-ba
  *//////////////////////////////////////
 
-
 Pinpon_dash = {}; // ピンポンダッシュオブジェクト
 Pinpon_dash.audio = {}; // オーディオオブジェクト
 // 1ループの秒数。これが徐々に減っていく
@@ -13,7 +12,7 @@ Pinpon_dash.now_msec = 0;
 // ノックするターンとドアを開くターンを切り替える。正の数の時はノック、負の数の時はオープン
 Pinpon_dash.knock_or_open_flag = 1;
 // タイマーの間隔。値を少なくするとフレームレイトが上昇
-Pinpon_dash.default_timer_wait = 50;
+Pinpon_dash.default_timer_wait = 20;
 // ユーザーがノックした時間
 Pinpon_dash.user_knock_pushed = new Array();
 // ユーザーがオープンした時間
@@ -21,20 +20,23 @@ Pinpon_dash.user_open_pushed = new Array();
 
 // 初期化
 Pinpon_dash.init = function() {
-	// timer sta\rt.
+	// load resources
 	Pinpon_dash.load_sounds();
-	Pinpon_dash.audio.bgm.loop;
-//	Pinpon_dash.audio.bgm.play();
 
 	// reference sprites
-	Pinpon_dash.character1 = document.getElementById('character1');
+	Pinpon_dash.character1 = document.getElementById('player1-icon-area');
 
+	// music
+	Pinpon_dash.audio.bgm.play();
+
+	// timer start
 	setInterval("Pinpon_dash.timer();", Pinpon_dash.default_timer_wait);
 }
 
 // 音声を
 Pinpon_dash.load_sounds = function() {
 	Pinpon_dash.audio.bgm = new Audio("bgm/bgm_bpm120.mp3");
+	Pinpon_dash.audio.bgm.preload = "auto";
 	Pinpon_dash.audio.change_fase = new Audio("wav/change_fase.mp3");
 	Pinpon_dash.audio.knock = new Audio("wav/knock.mp3");
 	Pinpon_dash.audio.open = new Audio("wav/open.mp3");
@@ -45,12 +47,29 @@ Pinpon_dash.load_sounds = function() {
 // 初期化した時に呼ばれるタイマー処理
 Pinpon_dash.timer = function() {
 	Pinpon_dash.now_msec += Pinpon_dash.default_timer_wait;
+	Pinpon_dash.set_player_position();
 	if(Pinpon_dash.loop_of_msec < Pinpon_dash.now_msec) { // ループ秒に達したら？
 		Pinpon_dash.change_fase(); // フェーズ変更
 	} // end if msec end.
 
 	// VIEW
 	Pinpon_dash.render()
+}
+
+// 時刻情報から扉の番号を返す(1-16)
+Pinpon_dash.getDoorNumber_from_nowTime = function() {
+	var ret = Math.floor(Pinpon_dash.now_msec / (Pinpon_dash.loop_of_msec / 16.0) + 1);
+	if(ret > 16) ret = 16;
+	return(ret);
+}
+
+
+// プレイヤーの位置を調整する
+Pinpon_dash.set_player_position = function() {
+	var img = document.getElementById("door" + Pinpon_dash.getDoorNumber_from_nowTime());
+	this.character1.style.top = img.style.top;
+	this.character1.style.left = img.style.left - 5;
+	this.character1.style.left = this.now_msec + "px";
 }
 
 // フェーズ変更
@@ -79,6 +98,8 @@ Pinpon_dash.door_is_knock = function() {
 
 // ドアをノックした時のエフェクト
 Pinpon_dash.effect_door_knock = function() {
+	Pinpon_dash.audio.knock.pause();
+	Pinpon_dash.audio.knock.currentTime = 0;
 	Pinpon_dash.audio.knock.play();
 }
 
@@ -86,11 +107,13 @@ Pinpon_dash.effect_door_knock = function() {
 Pinpon_dash.door_is_open = function() {
 	// 現在のノック時刻を格納
 	Pinpon_dash.user_open_pushed.push(Pinpon_dash.now_msec);
+	var img = document.getElementById("door" + Pinpon_dash.getDoorNumber_from_nowTime());
+	img.src = "img/opened_door.jpg";
 
 	// ノックした時刻をチェック
 	for(var i = 0; i < Pinpon_dash.user_knock_pushed.length; i ++) {
 		// ノックとのタイミングを比較して、50msec以内に入っていたらOK
-		if(Math.abs(Pinpon_dash.user_knock_pushed[i] - Pinpon_dash.now_msec) < 50) { // ノックしたドアなのでOK
+		if(Math.abs(Pinpon_dash.user_knock_pushed[i] - Pinpon_dash.now_msec) < 100) { // ノックしたドアなのでOK
 			Pinpon_dash.effect_knocked_door_open(); // 正しいタイミングでドアが開く
 			return;
 		} // 正しいドアがノックできたか？
@@ -102,12 +125,16 @@ Pinpon_dash.door_is_open = function() {
 
 // ドアを開ける時のエフェクト
 Pinpon_dash.effect_door_open = function() {
+	Pinpon_dash.audio.open.pause();
+	Pinpon_dash.audio.open.currentTime = 0;
 	Pinpon_dash.audio.open.play();
 }
 
 // ノックしていないドアを開ける時のエフェクト
 Pinpon_dash.effect_non_knocked_door_open = function() {
 	Pinpon_dash.audio.bgm.pause();
+	Pinpon_dash.audio.open.pause();
+	Pinpon_dash.audio.open.currentTime = 0;
 	Pinpon_dash.audio.open.play();
 	Pinpon_dash.audio.missed_unknocked_door.play();
 }
@@ -123,6 +150,9 @@ Pinpon_dash.check_is_non_open_door = function() {
 	// 押したボタンの情報を初期化
 	Pinpon_dash.user_knock_pushed = new Array();
 	Pinpon_dash.user_open_pushed = new Array();
+	var imgs = document.getElementsByTagName("img");
+	for(var i = 0; i < imgs.length; i ++)
+		imgs[i].src = "img/closed_door.jpg";
 }
 
 // 開いていないドアがあった時のエフェクト
@@ -138,7 +168,7 @@ window.onload = function() {
 // render game view
 Pinpon_dash.render = function() {
 	this.character1.style.visibility = "visible";
-	this.character1.style.left = this.now_msec + "px";
+	
 	// debug.log(Pinpon_dash.now_msec)
 	// character1.style.left = "58px";
 	character1.style.top = "20px";

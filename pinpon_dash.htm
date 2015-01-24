@@ -2,59 +2,60 @@
 
 <html lang="ja" dir="ltr">
 <head>
+
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<title>PP-dash</title>
-	<link rel="stylesheet" href="styles.css">
+	<link type="text/css" rel="stylesheet" href="css/ui.css" />
 	<script type="text/javascript" src="ba-debug.js"></script>
 	<script type="text/javascript" src="js.js"></script>
 </head>
 
 <body>
 
-<div id="Pinpon_dash">
+	<div id="Pinpon_dash">
 
-	<table id="building" cellpadding="0" cellspacing="0" border="0">
-		<tbody>
+		<table id="building" cellpadding="0" cellspacing="0" border="0">
+			<tbody>
 
-			<tr id="floor4">
-				<td id="floor4-1"><img src="img/tobira_test.jpg" alt="4-1号室のドア"></td>
-				<td id="floor4-2"><img src="img/tobira_test.jpg" alt="4-2号室のドア"></td>
-				<td id="floor4-3"><img src="img/tobira_test.jpg" alt="4-3号室のドア"></td>
-				<td id="floor4-4"><img src="img/tobira_test.jpg" alt="4-4号室のドア"></td>
-			</tr>
+				<tr id="floor4">
+					<td id="floor4-1"><img id="door1" src="img/closed_door.jpg" alt="4-1号室のドア" /></td>
+					<td id="floor4-2"><img id="door2"  src="img/closed_door.jpg" alt="4-2号室のドア" /></td>
+					<td id="floor4-3"><img id="door3"  src="img/closed_door.jpg" alt="4-3号室のドア" /></td>
+					<td id="floor4-4"><img id="door4" src="img/closed_door.jpg" alt="4-4号室のドア" /></td>
+				</tr>
 
-			<tr id="floor3">
-				<td id="floor3-1"><img src="img/tobira_test.jpg" alt="3-1号室のドア"></td>
-				<td id="floor3-2"><img src="img/tobira_test.jpg" alt="3-2号室のドア"></td>
-				<td id="floor3-3"><img src="img/tobira_test.jpg" alt="3-3号室のドア"></td>
-				<td id="floor3-4"><img src="img/tobira_test.jpg" alt="3-4号室のドア"></td>
-			</tr>
+				<tr id="floor3">
+					<td id="floor3-1"><im id="door5"g src="img/closed_door.jpg" alt="3-1号室のドア" /></td>
+					<td id="floor3-2"><im id="door6"g src="img/closed_door.jpg" alt="3-2号室のドア" /></td>
+					<td id="floor3-3"><im id="door7"g src="img/closed_door.jpg" alt="3-3号室のドア" /></td>
+					<td id="floor3-4"><img id="door8" src="img/closed_door.jpg" alt="3-4号室のドア" /></td>
+				</tr>
 
-			<tr id="floor2">
-				<td id="floor2-1"><img src="img/tobira_test.jpg" alt="2-1号室のドア"></td>
-				<td id="floor2-2"><img src="img/tobira_test.jpg" alt="2-2号室のドア"></td>
-				<td id="floor2-3"><img src="img/tobira_test.jpg" alt="2-3号室のドア"></td>
-				<td id="floor2-4"><img src="img/tobira_test.jpg" alt="2-4号室のドア"></td>
-			</tr>
+				<tr id="floor2">
+					<td id="floor2-1"><img id="door9" src="img/closed_door.jpg" alt="2-1号室のドア" /></td>
+					<td id="floor2-2"><img id="door10" src="img/closed_door.jpg" alt="2-2号室のドア" /></td>
+					<td id="floor2-3"><img id="door11" src="img/closed_door.jpg" alt="2-3号室のドア" /></td>
+					<td id="floor2-4"><img id="door12" src="img/closed_door.jpg" alt="2-4号室のドア" /></td>
+				</tr>
 
-			<tr id="floor1">
-				<td id="floor1-1"><img src="img/tobira_test.jpg" alt="1-1号室のドア"></td>
-				<td id="floor1-2"><img src="img/tobira_test.jpg" alt="1-2号室のドア"></td>
-				<td id="floor1-3"><img src="img/tobira_test.jpg" alt="1-3号室のドア"></td>
-				<td id="floor1-4"><img src="img/tobira_test.jpg" alt="1-4号室のドア"></td>
-			</tr>
+				<tr id="floor1">
+					<td id="floor1-1"><img id="door13" src="img/closed_door.jpg" alt="1-1号室のドア" /></td>
+					<td id="floor1-2"><img id="door14" src="img/closed_door.jpg" alt="1-2号室のドア" /></td>
+					<td id="floor1-3"><img id="door15" src="img/closed_door.jpg" alt="1-3号室のドア" /></td>
+					<td id="floor1-4"><img id="door16" src="img/closed_door.jpg" alt="1-4号室のドア" /></td>
+				</tr>
 
-		</tbody>
-	</table>
+			</tbody>
+		</table>
 
-	<!-- character sprites -->
-	<div id="character1" style="visibility: hidden; position:absolute;">
-		<img id src="img/player_test.jpg">
+
+		<div id="player1-icon-area" style="visibility: hidden; position:absolute;">
+			<img id="player1-icon" src="img/player_01.png" alt="" />
+		</div><!-- /player1-icon-area -->
+
 	</div>
 
-</div>
-
-<button type="button" onclick="Pinpon_dash.ui_main();">ノック・オープン</button>
-<button onclick="Pinpon_dash.init();">スタート</button>
+	<button type="button" onclick="Pinpon_dash.ui_main();">ノック・オープン</button>
+	<button onclick="Pinpon_dash.init();">スタート</button>
 </body>
 </html>
