@@ -3,6 +3,7 @@
  * Global Game Jum 2015 in Tokyo chika-ba
  *//////////////////////////////////////
 
+
 Pinpon_dash = {}; // ピンポンダッシュオブジェクト
 Pinpon_dash.audio = {}; // オーディオオブジェクト
 // 1ループの秒数。これが徐々に減っていく
@@ -24,6 +25,10 @@ Pinpon_dash.init = function() {
 	Pinpon_dash.load_sounds();
 	Pinpon_dash.audio.bgm.loop;
 //	Pinpon_dash.audio.bgm.play();
+
+	// reference sprites
+	Pinpon_dash.character1 = document.getElementById('character1');
+
 	setInterval("Pinpon_dash.timer();", Pinpon_dash.default_timer_wait);
 }
 
@@ -43,6 +48,9 @@ Pinpon_dash.timer = function() {
 	if(Pinpon_dash.loop_of_msec < Pinpon_dash.now_msec) { // ループ秒に達したら？
 		Pinpon_dash.change_fase(); // フェーズ変更
 	} // end if msec end.
+
+	// VIEW
+	Pinpon_dash.render()
 }
 
 // フェーズ変更
@@ -125,4 +133,13 @@ Pinpon_dash.effect_unopen_door = function() {
 
 window.onload = function() {
 	Pinpon_dash.init();
+}
+
+// render game view
+Pinpon_dash.render = function() {
+	this.character1.style.visibility = "visible";
+	this.character1.style.left = this.now_msec + "px";
+	// debug.log(Pinpon_dash.now_msec)
+	// character1.style.left = "58px";
+	character1.style.top = "20px";
 }
