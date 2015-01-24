@@ -67,9 +67,7 @@ Pinpon_dash.getDoorNumber_from_nowTime = function() {
 // プレイヤーの位置を調整する
 Pinpon_dash.set_player_position = function() {
 	var img = document.getElementById("door" + Pinpon_dash.getDoorNumber_from_nowTime());
-	this.character1.style.top = img.style.top;
-	this.character1.style.left = img.style.left - 5;
-	this.character1.style.left = this.now_msec + "px";
+	this.character1.style.cssText = ("top:" + img.offsetTop + "px;left:" + (img.offsetLeft - 5) + "px;");
 }
 
 // フェーズ変更
@@ -150,7 +148,7 @@ Pinpon_dash.check_is_non_open_door = function() {
 	// 押したボタンの情報を初期化
 	Pinpon_dash.user_knock_pushed = new Array();
 	Pinpon_dash.user_open_pushed = new Array();
-	var imgs = document.getElementsByTagName("img");
+	var imgs = document.getElementsByClassName("door");
 	for(var i = 0; i < imgs.length; i ++)
 		imgs[i].src = "img/closed_door.jpg";
 }
@@ -161,10 +159,6 @@ Pinpon_dash.effect_unopen_door = function() {
 	Pinpon_dash.audio.missed_non_open.play();
 }
 
-window.onload = function() {
-	Pinpon_dash.init();
-}
-
 // render game view
 Pinpon_dash.render = function() {
 	this.character1.style.visibility = "visible";
@@ -172,4 +166,8 @@ Pinpon_dash.render = function() {
 	// debug.log(Pinpon_dash.now_msec)
 	// character1.style.left = "58px";
 	character1.style.top = "20px";
+}
+
+window.onload = function() {
+	Pinpon_dash.init();
 }
