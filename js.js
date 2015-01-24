@@ -20,10 +20,16 @@ Pinpon_dash.user_open_pushed = new Array();
 
 // 初期化
 Pinpon_dash.init = function() {
-	// timer sta\rt.
+	// load resources
 	Pinpon_dash.load_sounds();
+
+	// reference sprites
+	Pinpon_dash.character1 = document.getElementById('player1-icon-area');
+
+	// music
 	Pinpon_dash.audio.bgm.play();
-	Pinpon_dash.audio.bgm.play();
+
+	// timer start
 	setInterval("Pinpon_dash.timer();", Pinpon_dash.default_timer_wait);
 }
 
@@ -45,6 +51,9 @@ Pinpon_dash.timer = function() {
 	if(Pinpon_dash.loop_of_msec < Pinpon_dash.now_msec) { // ループ秒に達したら？
 		Pinpon_dash.change_fase(); // フェーズ変更
 	} // end if msec end.
+
+	// VIEW
+	Pinpon_dash.render()
 }
 
 // 時刻情報から扉の番号を返す(1-16)
@@ -57,9 +66,13 @@ Pinpon_dash.getDoorNumber_from_nowTime = function() {
 
 // プレイヤーの位置を調整する
 Pinpon_dash.set_player_position = function() {
-	var player_icon = document.getElementById("player-icon-area");
-	var img =document.getElementById("door" + Pinpon_dash.getDoorNumber_from_nowTime());
-	player_icon.style.cssText = ("top:" + img.offsetTop + "px;left:" + (img.offsetLeft - 5) + "px;");
+	var img = document.getElementById("door" + Pinpon_dash.getDoorNumber_from_nowTime());
+	// var img = document.getElementById("floor2-2");
+	this.character1.style.cssText = "top:" + img.offsetParent.offsetTop + "px; left:" + (img.offsetParent.offsetLeft - 5) + "px; position: absolute;";
+	// this.character1.style.cssText = "top:" + img.style.top + "px;left:" + (img.style.left - 5) + "px;";
+	// Pinpon_dash.character1.style.left = img.offsetParent.offsetLeft + "px;"  // does not work!
+	// this.character1.style.cssText = "top: 20px; left: 150px; position: absolute;";
+
 }
 
 // フェーズ変更
@@ -97,7 +110,7 @@ Pinpon_dash.effect_door_knock = function() {
 Pinpon_dash.door_is_open = function() {
 	// 現在のノック時刻を格納
 	Pinpon_dash.user_open_pushed.push(Pinpon_dash.now_msec);
-	var img =document.getElementById("door" + Pinpon_dash.getDoorNumber_from_nowTime());
+	var img = document.getElementById("door" + Pinpon_dash.getDoorNumber_from_nowTime());
 	img.src = "img/opened_door.jpg";
 
 	// ノックした時刻をチェック
@@ -149,6 +162,15 @@ Pinpon_dash.check_is_non_open_door = function() {
 Pinpon_dash.effect_unopen_door = function() {
 	Pinpon_dash.audio.bgm.pause();
 	Pinpon_dash.audio.missed_non_open.play();
+}
+
+// render game view
+Pinpon_dash.render = function() {
+	this.character1.style.visibility = "visible";
+	
+	// debug.log(Pinpon_dash.now_msec)
+	// this.character1.style.left = "158px";
+	// this.character1.style.top = "20px";
 }
 
 window.onload = function() {
