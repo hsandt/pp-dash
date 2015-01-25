@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+#Pinpon_dash {
+	background-image: url(../img/background.png); background-repeat: no-repeat;
+}
+
 /* プレイヤーのアイコン */
 #player-icon-area {
 	position:absolute;
