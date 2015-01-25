@@ -32,10 +32,24 @@ Pinpon_dash.init = function() {
 	// loading sounds.
 	Pinpon_dash.load_sounds();
 
+	// reference game div
+	this.main_div = document.getElementById('pinpon_dash');
+
 	// reference sprites
 	this.character1 = document.getElementById('player1-icon-area');
 	this.character2 = document.getElementById('player2-icon-area');
-	
+	// this.knock_effect = document.getElementById('knock-effect-area');
+
+	// door sprites
+	this.door_sprites = new Array(16);
+	for (var i = this.door_sprites.length - 1; i >= 0; i--) {
+		this.door_sprites[i] = document.getElementById("door" + (i +1));
+	};
+
+	// knock sprites
+	this.knock_effects = new Array();
+
+	// set initial character
 	this.current_character = this.character1
 }
 
@@ -158,8 +172,9 @@ Pinpon_dash.change_fase = function() {
 
 // ユーザーがボタンを押したことで呼ばれる関数
 Pinpon_dash.on_click = function() {
+	knock_number = this.getDoorNumber_from_nowTime();
 	if(this.fase.knock_or_open_flag == 1) { // ノックする
-		this.knock_door();
+		this.knock_door(knock_number);
 	} else { // ドアを開ける
 		this.open_door();
 	} // ノックするかドアを開けるか？
@@ -173,17 +188,24 @@ Pinpon_dash.audio.replay = function(audio_object) {
 }
 
 // ドアをノックする処理
-Pinpon_dash.knock_door = function() {
+Pinpon_dash.knock_door = function(knock_number) {
 	// 現在のノック時刻を格納
+	// TODO: register door instead of time, and delay SFX and GFX
 	this.userData.knocked_times.push(Pinpon_dash.timer.now_msec);
 	// ドアをノックしたエフェクト
-	this.effect_knock_door();
+	this.effect_knock_door(knock_number);
 }
 
 // ドアをノックした時のエフェクト
-Pinpon_dash.effect_knock_door = function() {
+Pinpon_dash.effect_knock_door = function(knock_number) {
 	// ノックした音を再生
 	this.audio.replay(this.audio.knock[Math.round(Math.random())]);
+	// knock GFX
+	knock_effect_index = this.get_or_create_knock_effect_index();
+	knock_effect = this.knock_effects[knock_effect_index];
+	// knock_effect.style.visibility = "visible";
+	knock_effect.style.cssText = "visibility: visible; top:" + (this.door_sprites[knock_number - 1].offsetParent.offsetTop + 50) + "px; left:" + (this.door_sprites[knock_number - 1].offsetParent.offsetLeft + 50) + "px; position: absolute;";
+	setTimeout("Pinpon_dash.hide_knock_effect(" + knock_effect_index + ")", 1000);
 }
 
 // ドアを開ける処理
@@ -285,7 +307,7 @@ Pinpon_dash.effect_unopen_door = function() {
 	window.location.href = "./gameover2.htm";
 }
 
-// render game view
+// Render game view
 Pinpon_dash.render = function() {
 	this.current_character.style.visibility = "visible";
 	
@@ -293,6 +315,34 @@ Pinpon_dash.render = function() {
 	this.set_player_position();
 
 	// this.character
+}
+
+// Look for an unused knock_effect and create one, push it on the list and return it if could not find any
+// Return the knock effect by index
+Pinpon_dash.get_or_create_knock_effect_index = function() {
+	for (var i = this.knock_effects.length - 1; i >= 0; i--) {
+		if (this.knock_effects[i].style.visibility === "hidden") {
+			return i;
+		}
+	};
+
+	// no unused knock_effect was found; create one
+	knock_effect = new Image()
+	// knock_effect = document.createElement("img")
+	knock_effect.src = "img/don.png"
+	// TODO: resize image
+	// knock_effect.style.visibility = "visible";
+
+	// add the knock effect to the game's div and push it on the list of effects
+	this.main_div.appendChild(knock_effect)
+	this.knock_effects.push(knock_effect)
+
+	return this.knock_effects.length - 1
+}
+
+// Hide the knock effect with the given index
+Pinpon_dash.hide_knock_effect = function(knock_effect_number) {
+	this.knock_effects[knock_effect_number].style.visibility = "hidden";
 }
 
 window.onload = function() {
