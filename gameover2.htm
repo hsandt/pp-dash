@@ -9,8 +9,12 @@
 <style type="text/css"><!--
 /* ゲームオーバーのメッセージ(センタリング) */
 #message {width: 60%; margin-left: auto; margin-right:auto; text-align: center;}
+#message h1 {text-align:center;}
+#message p {text-align:center;}
 /* ゲームオーバーのロゴ(センタリング) */
 #game-over-logo {width: 80%; margin-left: auto; margin-right:auto; text-align: center;}
+/* ゲームオーバー時のスコア表示 */
+#game-score {width: 20%; margin-left: auto; margin-right: 0; border: double #008080 thin;}
 /* ゲームオーバーのメニュー(センタリング) */
 #game-menu {width: 60%; margin-left: auto; margin-right:auto;}
 --></style>
@@ -19,6 +23,8 @@
 window.onload = function() {
 	var missed_non_open = new Audio("wav/missed_non_open.mp3");
 	missed_non_open.play();
+	var score = window.location.hash.replace(/#?score(\d+)_(\d+)/, "$1、$2");
+	document.getElementById("score").innerHTML = score;
 }
 // --></script>
 </head>
@@ -32,7 +38,12 @@ window.onload = function() {
 </section><!-- /message -->
 
 <div id="game-over-logo">
+<img src="img/lose02.png" width="362px" height="627px" alt="落ち込んでいる女の子の写真。" />
 </div><!-- /game-over-logo -->
+
+<section id="game-score">
+<p>とくてん：<span id="score"></span>てん</p>
+</section><!-- /game-score -->
 
 <nav id="game-menu">
 <ul>
