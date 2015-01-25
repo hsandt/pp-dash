@@ -116,8 +116,6 @@ Pinpon_dash.process_of_fase = function() {
 		this.change_fase(); // フェーズ変更
 	} // end if msec end.
 
-	// プレイヤーが立つ位置を設定
-	this.set_player_position();
 	// VIEW Character
 	Pinpon_dash.render()
 }
@@ -278,6 +276,9 @@ Pinpon_dash.effect_unopen_door = function() {
 Pinpon_dash.render = function() {
 	this.character1.style.visibility = "visible";
 	
+	// プレイヤーが立つ位置を設定
+	this.set_player_position();
+
 	// debug.log(Pinpon_dash.timer.now_msec)
 	// this.character1.style.left = "158px";
 	// this.character1.style.top = "20px";
