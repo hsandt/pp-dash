@@ -34,6 +34,9 @@ Pinpon_dash.init = function() {
 
 	// reference sprites
 	this.character1 = document.getElementById('player1-icon-area');
+	this.character2 = document.getElementById('player2-icon-area');
+	
+	this.current_character = this.character1
 }
 
 // スタート処理
@@ -116,8 +119,6 @@ Pinpon_dash.process_of_fase = function() {
 		this.change_fase(); // フェーズ変更
 	} // end if msec end.
 
-	// プレイヤーが立つ位置を設定
-	this.set_player_position();
 	// VIEW Character
 	Pinpon_dash.render()
 }
@@ -132,13 +133,16 @@ Pinpon_dash.getDoorNumber_from_nowTime = function() {
 // プレイヤーの位置を、扉画像の位置に調整する
 Pinpon_dash.set_player_position = function() {
 	var img = document.getElementById("door" + this.getDoorNumber_from_nowTime());
-	this.character1.style.cssText = "top:" + (img.offsetParent.offsetTop + 96) + "px; left:" + (img.offsetParent.offsetLeft + 50) + "px; position: absolute;";
+	this.current_character.style.cssText = "top:" + (img.offsetParent.offsetTop + 96) + "px; left:" + (img.offsetParent.offsetLeft + 50) + "px; position: absolute;";
 }
 
 // アクションするフェーズの変更
 Pinpon_dash.change_fase = function() {
 	// 切り替わったことを音で鳴らしている(デバッグ用)
 	this.audio.change_fase.play();
+
+	// hide last character
+	this.current_character.style.visibility = "hidden"
 
 	if(this.fase.knock_or_open_flag == 1) { // ノックフェーズからオープンフェーズへ移行
 		this.change_knock_to_open_fase();
@@ -223,6 +227,10 @@ Pinpon_dash.effect_open_non_knocked_door = function() {
 
 // ノックフェーズからオープンフェーズへの移行
 Pinpon_dash.change_knock_to_open_fase = function() {
+
+	// change current character
+	this.current_character = this.character2;
+
 	// 「ノック」ボタンを「ドアを開ける」ボタンに書き換える
 	document.getElementById("user-action-button").value = "[あける]";
 }
@@ -240,8 +248,11 @@ Pinpon_dash.change_open_to_knock_fase = function() {
 	for(var i = 0; i < imgs.length; i ++) {
 		imgs[i].src = "img/closed_door.png";
 	} // end for.
-	document.getElementById("user-action-button").value = "[ノック]";
 
+	// change current character
+	this.current_character = this.character1;
+
+	document.getElementById("user-action-button").value = "[ノック]";
 	// 1小説経過したのでスコアを増やす
 	this.userData.score ++;
 	// 4小説経過毎にレベルアップ
@@ -276,14 +287,18 @@ Pinpon_dash.effect_unopen_door = function() {
 
 // render game view
 Pinpon_dash.render = function() {
-	this.character1.style.visibility = "visible";
+	this.current_character.style.visibility = "visible";
 	
-	// debug.log(Pinpon_dash.timer.now_msec)
-	// this.character1.style.left = "158px";
-	// this.character1.style.top = "20px";
+	// プレイヤーが立つ位置を設定
+	this.set_player_position();
+
+	// this.character
 }
 
 window.onload = function() {
 	Pinpon_dash.init();
+
+	document.getElementById("user-action-button").disabled = true;
+	document.getElementById("game-start-button").disabled = false;
 	document.getElementById("game-start-button").focus(0);
 }
