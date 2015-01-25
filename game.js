@@ -139,8 +139,13 @@ Pinpon_dash.getDoorNumber_from_nowTime = function() {
 
 // プレイヤーの位置を、扉画像の位置に調整する
 Pinpon_dash.set_player_position = function() {
-	var img = document.getElementById("door" + this.getDoorNumber_from_nowTime());
-	this.current_character.style.cssText = "top:" + (img.offsetParent.offsetTop + 96) + "px; left:" + (img.offsetParent.offsetLeft + 50) + "px; position: absolute;";
+	var doorNumber = this.getDoorNumber_from_nowTime();
+	var time_per_floor = 4 * (this.timer.loop_of_msec / 16.0);
+
+	var img = document.getElementById("door" + doorNumber);
+
+	var left_offset = -5 + 1024 / 2 * (this.timer.now_msec - Math.floor((doorNumber - 1) / 4) * time_per_floor) / time_per_floor;
+	this.current_character.style.cssText = "top:" + (img.offsetParent.offsetTop + 96) + "px; left:" + left_offset + "px; position: absolute;";
 }
 
 // アクションするフェーズの変更
