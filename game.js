@@ -213,13 +213,13 @@ Pinpon_dash.effect_knock_door = function(knock_number) {
 
 // ドアを開ける処理
 Pinpon_dash.open_door = function() {
-	// 現在のノック時刻を格納
-	// this.userData.opened_times.push(this.timer.now_msec);
-	// 開けるドアを取得して、画像リソースを差し替える
+	// register number of opened door
 	var doorNumber = this.getDoorNumber_from_nowTime();
-	// var img = document.getElementById("door" + doorNumber);
-	// img.src = "img/opened_door.png";
 	this.userData.opened_doors.push(doorNumber);
+
+	// 開けるドアを取得して、画像リソースを差し替える
+	var img = document.getElementById("door" + doorNumber);
+	img.src = "img/opened_door.png";
 
 	if (this.userData.knocked_doors.indexOf(doorNumber) > -1) {
 		this.effect_open_knocked_door(); // 正しいタイミングでドアが開く
