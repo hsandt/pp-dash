@@ -50,10 +50,14 @@
 
 
 		<div id="player1-icon-area" style="visibility: hidden; position:absolute;">
-			<img id="player1-icon" src="img/player_01.png" width="64" height="106" alt="" />
+			<img id="player1-icon" src="img/player_01.png" width="64" height="106" alt="player1">
 		</div><!-- /player1-icon-area -->
 
-		<input id="user-action-button" type="button" onclick="Pinpon_dash.on_click();" value="[ノック]" disabled />
-		<button id="game-start-button" onclick="Pinpon_dash.start();">スタート</button>
+		<div id="player2-icon-area" style="visibility: hidden; position:absolute;">
+			<img id="player2-icon" src="img/player_02.png" width="64" height="106" alt="player2">
+		</div><!-- /player2-icon-area -->
+
+		<input id="user-action-button" type="button" onclick="Pinpon_dash.on_click();" value="[ノック]">
+		<input id="game-start-button" type="button" onclick="Pinpon_dash.start();" value="スタート">
 	</body>
 	</html>
