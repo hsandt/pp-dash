@@ -19,7 +19,7 @@ Pinpon_dash.userData.score = 0;
 // ノックするターンとドアを開くターンを切り替える。正の数の時はノック、負の数の時はオープン
 Pinpon_dash.fase.knock_or_open_flag = 1;
 // タイマーの間隔。値を少なくするとフレームレイトが上昇
-Pinpon_dash.timer.default_timer_wait = 10;
+Pinpon_dash.timer.default_timer_wait = 20;
 
 
 // 初期化
@@ -130,7 +130,7 @@ Pinpon_dash.getDoorNumber_from_nowTime = function() {
 // プレイヤーの位置を、扉画像の位置に調整する
 Pinpon_dash.set_player_position = function() {
 	var img = document.getElementById("door" + this.getDoorNumber_from_nowTime());
-	this.character1.style.cssText = "top:" + img.offsetParent.offsetTop + "px; left:" + (img.offsetParent.offsetLeft - 5) + "px; position: absolute;";
+	this.character1.style.cssText = "top:" + (img.offsetParent.offsetTop + 96) + "px; left:" + (img.offsetParent.offsetLeft + 50) + "px; position: absolute;";
 }
 
 // アクションするフェーズの変更
@@ -252,7 +252,7 @@ Pinpon_dash.level_up = function() {
 //	this.audio.bgm.pause();
 //	this.audio.bgm.currentTime = 0;
 	this.audio.bgm = new Audio("bgm/bgm_bpm" + bpm + ".mp3");
-	this.loop_of_msec = 120 * 2000 / bpm;
+	this.timer.loop_of_msec = 120 * 2000.0 / bpm;
 	this.audio.bgm.play();
 }
 
@@ -286,4 +286,5 @@ Pinpon_dash.render = function() {
 
 window.onload = function() {
 	Pinpon_dash.init();
+	document.getElementById("game-start-button").focus(0);
 }
