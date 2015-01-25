@@ -5,6 +5,7 @@
 
 Pinpon_dash = {}; // ピンポンダッシュオブジェクト
 Pinpon_dash.audio = {}; // オーディオオブジェクト
+
 // 1ループの秒数。これが徐々に減っていく
 Pinpon_dash.loop_of_msec = 2000;
 // 現在の経過秒数
@@ -25,7 +26,10 @@ Pinpon_dash.init = function() {
 
 	// reference sprites
 	Pinpon_dash.character1 = document.getElementById('player1-icon-area');
+}
 
+// スタート処理
+Pinpon_dash.start = function() {
 	// music
 	Pinpon_dash.audio.bgm.play();
 
@@ -33,7 +37,7 @@ Pinpon_dash.init = function() {
 	setInterval("Pinpon_dash.timer();", Pinpon_dash.default_timer_wait);
 }
 
-// 音声を
+// 音声をロード
 Pinpon_dash.load_sounds = function() {
 	Pinpon_dash.audio.bgm = new Audio("bgm/bgm_bpm120.mp3");
 	Pinpon_dash.audio.bgm.preload = "auto";
@@ -84,7 +88,7 @@ Pinpon_dash.change_fase = function() {
 }
 
 // ユーザーがボタンを押したことで呼ばれる関数
-Pinpon_dash.ui_main = function() {
+Pinpon_dash.on_click = function() {
 	if(Pinpon_dash.knock_or_open_flag == 1) { // ノックする
 		Pinpon_dash.door_is_knock();
 	} else { // ドアを開ける
@@ -175,4 +179,5 @@ Pinpon_dash.render = function() {
 
 window.onload = function() {
 	Pinpon_dash.init();
+	Pinpon_dash.start();
 }
