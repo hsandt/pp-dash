@@ -26,9 +26,13 @@ Pinpon_dash.timer.default_timer_wait = 20;
 // 初期化
 Pinpon_dash.init = function() {
 	// ユーザーがノックした時間
-	this.userData.knocked_times = new Array();
+	// this.userData.knocked_times = new Array();
+	// doors knocked by player 1, by number
+	this.userData.knocked_doors = new Array();
 	// ユーザーがオープンした時間
-	this.userData.opened_times = new Array();
+	// this.userData.opened_times = new Array();
+	// doors opened by player 2, by number
+	this.userData.opened_doors = new Array();
 
 	// loading sounds.
 	Pinpon_dash.load_sounds();
@@ -83,7 +87,9 @@ Pinpon_dash.second_starting_process = function() {
 Pinpon_dash.thard_starting_process = function() {
 	// Play music
 	this.audio.bgm.play();
-	this.userData.knocked_times = new Array();
+	// FIXME: prefer reseting the array than creating a new object
+	// this.userData.knocked_times = new Array();
+	this.userData.knocked_doors = new Array();
 
 	// timer start
 	this.timer.intervalID = setInterval("Pinpon_dash.process_of_phase();", this.timer.default_timer_wait);
@@ -187,7 +193,8 @@ Pinpon_dash.audio.replay = function(audio_object) {
 Pinpon_dash.knock_door = function(knock_number) {
 	// 現在のノック時刻を格納
 	// TODO: register door instead of time, and delay SFX and GFX
-	this.userData.knocked_times.push(Pinpon_dash.timer.now_msec);
+	// this.userData.knocked_times.push(Pinpon_dash.timer.now_msec);
+	this.userData.knocked_doors.push(knock_number);
 	// ドアをノックしたエフェクト
 	this.effect_knock_door(knock_number);
 }
@@ -207,19 +214,26 @@ Pinpon_dash.effect_knock_door = function(knock_number) {
 // ドアを開ける処理
 Pinpon_dash.open_door = function() {
 	// 現在のノック時刻を格納
-	this.userData.opened_times.push(this.timer.now_msec);
+	// this.userData.opened_times.push(this.timer.now_msec);
 	// 開けるドアを取得して、画像リソースを差し替える
-	var img = document.getElementById("door" + this.getDoorNumber_from_nowTime());
-	img.src = "img/opened_door.png";
+	var doorNumber = this.getDoorNumber_from_nowTime();
+	// var img = document.getElementById("door" + doorNumber);
+	// img.src = "img/opened_door.png";
+	this.userData.opened_doors.push(doorNumber);
 
-	// ノックした時刻をチェック
-	for(var i = 0; i < this.userData.knocked_times.length; i ++) {
-		// ノックとのタイミングを比較して、前後の扉との時間内に収まっていればOK。
-		if(Math.abs(this.userData.knocked_times[i] - this.timer.now_msec) < (this.timer.loop_of_msec / 16)) { // ノックしたドアなのでOK
-			this.effect_open_knocked_door(); // 正しいタイミングでドアが開く
-			return; // ドアが開いたのでここで処理終了
-		} // 正しいドアが開けたか？
-	} // end for.
+	if (this.userData.knocked_doors.indexOf(doorNumber) > -1) {
+		this.effect_open_knocked_door(); // 正しいタイミングでドアが開く
+		return; // ドアが開いたのでここで処理終了
+	}
+
+	// // ノックした時刻をチェック
+	// for(var i = 0; i < this.userData.knocked_times.length; i ++) {
+	// 	// ノックとのタイミングを比較して、前後の扉との時間内に収まっていればOK。
+	// 	if(Math.abs(this.userData.knocked_times[i] - this.timer.now_msec) < (this.timer.loop_of_msec / 16)) { // ノックしたドアなのでOK
+	// 		this.effect_open_knocked_door(); // 正しいタイミングでドアが開く
+	// 		return; // ドアが開いたのでここで処理終了
+	// 	} // 正しいドアが開けたか？
+	// } // end for.
 
 	// ノックしていないドアを開いたので雷おじさん降臨
 	this.effect_open_non_knocked_door();
@@ -259,11 +273,14 @@ Pinpon_dash.change_knock_to_open_fase = function() {
 // オープンフェーズからノックフェーズへの移行
 Pinpon_dash.change_open_to_knock_fase = function() {
 	this.check_is_non_open_door(); // 未開封のドアのチェック
-	this.userData.score2 += this.userData.opened_times.length;
+	// this.userData.score2 += this.userData.opened_times.length;
+	this.userData.score2 += this.userData.opened_doors.length;
 
 	// 押したノック、オープンボタンの情報を初期化
-	this.userData.knocked_times = new Array();
-	this.userData.opened_times = new Array();
+	// this.userData.knocked_times = new Array();
+	// this.userData.opened_times = new Array();
+	this.userData.knocked_doors = new Array();
+	this.userData.opened_doors = new Array();
 
 	// 開いたドアを閉める
 	var imgs = document.getElementsByClassName("door");
@@ -291,12 +308,19 @@ Pinpon_dash.level_up = function() {
 
 // 未開放のドアのチェック
 Pinpon_dash.check_is_non_open_door = function() {
-	for(var i = 0; i < this.userData.knocked_times.length; i ++) {
-		// 開け忘れのドア
-		if(!(this.userData.opened_times[i]) || Math.abs(this.userData.knocked_times[i] - this.userData.opened_times[i]) > (this.timer.loop_of_msec / 16)) {
+	// for(var i = 0; i < this.userData.knocked_times.length; i ++) {
+	// 	// 開け忘れのドア
+	// 	if(!(this.userData.opened_times[i]) || Math.abs(this.userData.knocked_times[i] - this.userData.opened_times[i]) > (this.timer.loop_of_msec / 16)) {
+	// 		this.effect_unopen_door(i); // 開いてないドアの処理
+	// 	}
+	// } // end for.
+
+	// check if player 2 missed a door (sub-optimal, prefer a sorted comparison)
+	for(var i = 0; i < this.userData.knocked_doors.length; i ++) {
+		if (this.userData.opened_doors.indexOf(this.userData.knocked_doors[i]) == -1) {
 			this.effect_unopen_door(i); // 開いてないドアの処理
 		}
-	} // end for.
+	}
 }
 
 // 開いていないドアがあった時のエフェクト
