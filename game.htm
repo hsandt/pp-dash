@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html lang="ja" dir="ltr">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+	<title>PP-dash</title>
+	<link type="text/css" rel="stylesheet" href="css/init.css" />
+	<link type="text/css" rel="stylesheet" href="css/ui.css" />
+	<script type="text/javascript" src="ba-debug.js"></script>
+	<script type="text/javascript" src="game.js"></script>
+</head>
+
+<body>
+
+	<div id="Pinpon_dash">
+
+		<table id="building" cellpadding="0" cellspacing="0" border="0">
+			<tbody>
+
+				<tr id="floor4">
+					<td id="floor4-1"><img class="door" id="door1" src="img/closed_door.png" alt="4-1号室のドア" /></td>
+					<td id="floor4-2"><img class="door" id="door2" src="img/closed_door.png" alt="4-2号室のドア" /></td>
+					<td id="floor4-3"><img class="door" id="door3" src="img/closed_door.png" alt="4-3号室のドア" /></td>
+					<td id="floor4-4"><img class="door" id="door4" src="img/closed_door.png" alt="4-4号室のドア" /></td>
+				</tr>
+
+				<tr id="floor3">
+					<td id="floor3-1"><img class="door" id="door5" src="img/closed_door.png" alt="3-1号室のドア" /></td>
+					<td id="floor3-2"><img class="door" id="door6" src="img/closed_door.png" alt="3-2号室のドア" /></td>
+					<td id="floor3-3"><img class="door" id="door7" src="img/closed_door.png" alt="3-3号室のドア" /></td>
+					<td id="floor3-4"><img class="door" id="door8" src="img/closed_door.png" alt="3-4号室のドア" /></td>
+				</tr>
+
+				<tr id="floor2">
+					<td id="floor2-1"><img class="door" id="door9" src="img/closed_door.png" alt="2-1号室のドア" /></td>
+					<td id="floor2-2"><img class="door" id="door10" src="img/closed_door.png" alt="2-2号室のドア" /></td>
+					<td id="floor2-3"><img class="door" id="door11" src="img/closed_door.png" alt="2-3号室のドア" /></td>
+					<td id="floor2-4"><img class="door" id="door12" src="img/closed_door.png" alt="2-4号室のドア" /></td>
+				</tr>
+
+				<tr id="floor1">
+					<td id="floor1-1"><img class="door" id="door13" src="img/closed_door.png" alt="1-1号室のドア" /></td>
+					<td id="floor1-2"><img class="door" id="door14" src="img/closed_door.png" alt="1-2号室のドア" /></td>
+					<td id="floor1-3"><img class="door" id="door15" src="img/closed_door.png" alt="1-3号室のドア" /></td>
+					<td id="floor1-4"><img class="door" id="door16" src="img/closed_door.png" alt="1-4号室のドア" /></td>
+				</tr>
+
+			</tbody>
+		</table>
+
+
+		<div id="player1-icon-area" style="visibility: hidden; position:absolute;">
+			<img id="player1-icon" src="img/player_01.png" alt="" />
+		</div><!-- /player1-icon-area -->
+
+		<input id="user-action-button" type="button" onclick="Pinpon_dash.on_click();" value="[ノック]" disabled />
+		<button id="game-start-button" onclick="Pinpon_dash.start();">スタート</button>
+	</body>
+	</html>
