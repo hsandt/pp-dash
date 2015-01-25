@@ -10,7 +10,7 @@ Pinpon_dash.audio = {}; // オーディオオブジェクト
 Pinpon_dash.userData = {}; // ユーザーの操作によって扱われるデータ
 
 
-// 1ループの秒数。これが徐々に減っていく
+// 1ループの秒数。これが徐々に減っていく (lasts 4 floors = 16 doors)
 Pinpon_dash.timer.loop_of_msec = 2000;
 // 現在の経過秒数
 Pinpon_dash.timer.now_msec = 0;
@@ -39,7 +39,6 @@ Pinpon_dash.init = function() {
 	// reference sprites
 	this.character1 = document.getElementById('player1-icon-area');
 	this.character2 = document.getElementById('player2-icon-area');
-	// this.knock_effect = document.getElementById('knock-effect-area');
 
 	// door sprites
 	this.door_sprites = new Array(16);
@@ -82,13 +81,12 @@ Pinpon_dash.second_starting_process = function() {
 
 // ゲーム開始3。ノックフェーズ開始
 Pinpon_dash.thard_starting_process = function() {
-	// ノックボタンを有効にし、フォーカスを移す
-	// Plai music
+	// Play music
 	this.audio.bgm.play();
 	this.userData.knocked_times = new Array();
 
 	// timer start
-	this.timer.intervalID = setInterval("Pinpon_dash.process_of_fase();", this.timer.default_timer_wait);
+	this.timer.intervalID = setInterval("Pinpon_dash.process_of_phase();", this.timer.default_timer_wait);
 }
 
 
@@ -108,7 +106,7 @@ Pinpon_dash.load_sounds = function() {
 	this.audio.bgm = new Audio("bgm/bgm_bpm120.mp3");
 
 	// 各種効果音
-	this.audio.change_fase = new Audio("wav/change_fase.mp3"); // フェーズ変更時の音(デバッグ用)
+	this.audio.change_phase = new Audio("wav/change_fase.mp3"); // フェーズ変更時の音(デバッグ用)
 	this.audio.knock = [ // ドアノック音
 		new Audio("wav/knock1.mp3"),
 		new Audio("wav/knock2.mp3"),
@@ -120,14 +118,14 @@ Pinpon_dash.load_sounds = function() {
 }
 
 // プレイヤーの行動フェーズを進める
-Pinpon_dash.process_of_fase = function() {
+Pinpon_dash.process_of_phase = function() {
 	this.timer.now_msec += this.timer.default_timer_wait;
 	if(this.timer.loop_of_msec < this.timer.now_msec) { // ループ秒に達したら？
-		this.change_fase(); // フェーズ変更
+		this.change_phase(); // フェーズ変更
 	} // end if msec end.
 
 	// VIEW Character
-	Pinpon_dash.render()
+	Pinpon_dash.render_character()
 }
 
 // 時刻情報から扉の番号を返す(1-16)
@@ -140,7 +138,7 @@ Pinpon_dash.getDoorNumber_from_nowTime = function() {
 // プレイヤーの位置を、扉画像の位置に調整する
 Pinpon_dash.set_player_position = function() {
 	var doorNumber = this.getDoorNumber_from_nowTime();
-	var time_per_floor = 4 * (this.timer.loop_of_msec / 16.0);
+	var time_per_floor = this.timer.loop_of_msec / 4;
 
 	var img = document.getElementById("door" + doorNumber);
 
@@ -149,9 +147,9 @@ Pinpon_dash.set_player_position = function() {
 }
 
 // アクションするフェーズの変更
-Pinpon_dash.change_fase = function() {
+Pinpon_dash.change_phase = function() {
 	// 切り替わったことを音で鳴らしている(デバッグ用)
-	this.audio.change_fase.play();
+	this.audio.change_phase.play();
 
 	// hide last character
 	this.current_character.style.visibility = "hidden"
@@ -307,14 +305,11 @@ Pinpon_dash.effect_unopen_door = function() {
 	window.location.href = ("./gameover2.htm#score" + this.userData.score + "_" + this.userData.score2);
 }
 
-// Render game view
-Pinpon_dash.render = function() {
+// Render current character
+Pinpon_dash.render_character = function() {
 	this.current_character.style.visibility = "visible";
-	
 	// プレイヤーが立つ位置を設定
 	this.set_player_position();
-
-	// this.character
 }
 
 // Look for an unused knock_effect and create one, push it on the list and return it if could not find any
@@ -348,6 +343,7 @@ Pinpon_dash.hide_knock_effect = function(knock_effect_number) {
 window.onload = function() {
 	Pinpon_dash.init();
 
+	// ノックボタンを有効にし、フォーカスを移す
 	document.getElementById("user-action-button").disabled = true;
 	document.getElementById("game-start-button").disabled = false;
 	document.getElementById("game-start-button").focus(0);
