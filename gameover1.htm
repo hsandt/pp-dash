@@ -9,8 +9,12 @@
 <style type="text/css"><!--
 /* ゲームオーバーのメッセージ(センタリング) */
 #message {width: 60%; margin-left: auto; margin-right:auto; text-align: center;}
+#message h1 {text-align:center;}
+#message p {text-align:center;}
 /* ゲームオーバーのロゴ(センタリング) */
 #game-over-logo {width: 80%; margin-left: auto; margin-right:auto; text-align: center;}
+/* ゲームオーバー時のスコア表示 */
+#game-score {width: 20%; margin-left: auto; margin-right: 0; border: double #008080 thin;}
 /* ゲームオーバーのメニュー(センタリング) */
 #game-menu {width: 60%; margin-left: auto; margin-right:auto;}
 --></style>
@@ -19,6 +23,8 @@
 window.onload = function() {
 	var missed_unknocked_door = new Audio("wav/missed_unknocked_door.mp3");
 	missed_unknocked_door.play();
+	var score = window.location.hash.replace(/#?score(\d+)_(\d+)/, "$1、$2");
+	document.getElementById("score").innerHTML = score;
 }
 // --></script>
 </head>
@@ -32,8 +38,12 @@ window.onload = function() {
 </section><!-- /message -->
 
 <div id="game-over-logo">
-<img alt="雷おじさんの画像" src="img/kaminari_ojisan.png" width="197" height="199" />
+<img alt="雷おじさんの画像" src="img/kaminari_ojisan.png" width="400" height="710" />
 </div><!-- /game-over-logo -->
+
+<section id="game-score">
+<p>とくてん：<span id="score"></span>てん</p>
+</section><!-- /game-score -->
 
 <nav id="game-menu">
 <ul>
