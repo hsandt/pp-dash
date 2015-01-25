@@ -16,6 +16,7 @@ Pinpon_dash.timer.loop_of_msec = 2000;
 Pinpon_dash.timer.now_msec = 0;
 // 繰り返した回数(スコア)
 Pinpon_dash.userData.score = 0;
+Pinpon_dash.userData.score2 = 0;
 // ノックするターンとドアを開くターンを切り替える。正の数の時はノック、負の数の時はオープン
 Pinpon_dash.fase.knock_or_open_flag = 1;
 // タイマーの間隔。値を少なくするとフレームレイトが上昇
@@ -53,20 +54,16 @@ Pinpon_dash.first_starting_process = function() {
 	this.audio.start_wait.pause();
 	// チャイム音を鳴らす
 	this.audio.startSE.play();
-	setTimeout("Pinpon_dash.second_starting_process(0);", this.timer.loop_of_msec);
+	setTimeout("Pinpon_dash.second_starting_process();", this.timer.loop_of_msec);
 }
 
 // ゲーム開始2。ボイスを鳴らす
-Pinpon_dash.second_starting_process = function(voice_num) {
+Pinpon_dash.second_starting_process = function() {
 	// ボイスを鳴らす
-	this.audio.voices[voice_num].play();
-	if(voice_num < 3) { // 最初の3回はボイスだけ変えて繰り返す
-		setTimeout("Pinpon_dash.second_starting_process(" + (voice_num + 1) + ");", this.timer.loop_of_msec / 4);
-	} else { // 4回目は次のステップへ
-		setTimeout("Pinpon_dash.thard_starting_process();", this.timer.loop_of_msec / 4);
-		document.getElementById("user-action-button").disabled = false;
-		document.getElementById("user-action-button").focus(0);
-	} // 4回目以降かどうか？
+	this.audio.ready.play();
+	setTimeout("Pinpon_dash.thard_starting_process();", this.timer.loop_of_msec);
+	document.getElementById("user-action-button").disabled = false;
+	document.getElementById("user-action-button").focus(0);
 }
 
 // ゲーム開始3。ノックフェーズ開始
@@ -87,15 +84,11 @@ Pinpon_dash.load_sounds = function() {
 	this.audio.start_wait = new Audio("bgm/bgm_startWait.mp3");
 	this.audio.start_wait.loop = true;
 	this.audio.start_wait.play();
+	this.audio.miss = new Audio("wav/miss.mp3");
 
 	// ゲーム開始時に鳴らす効果音
 	this.audio.startSE = new Audio("wav/startSE.mp3");
-	this.audio.voices = [
-		new Audio("wav/voice1.mp3"),
-		new Audio("wav/voice2.mp3"),
-		new Audio("wav/voice3.mp3"),
-		new Audio("wav/voice4.mp3"),
-	];
+	this.audio.ready = new Audio("wav/ready.mp3");
 
 	// メインのBGM
 	this.audio.bgm = new Audio("bgm/bgm_bpm120.mp3");
@@ -215,6 +208,9 @@ Pinpon_dash.effect_open_knocked_door = function() {
 
 // ノックしていないドアを開ける時のエフェクト
 Pinpon_dash.effect_open_non_knocked_door = function() {
+	this.audio.miss.play();
+	return(true);
+
 	// 音楽を止める
 	this.audio.bgm.pause();
 	// ドアを開いた音を再生
@@ -222,7 +218,7 @@ Pinpon_dash.effect_open_non_knocked_door = function() {
 	// ゲームオーバーが確定したのでタイマー処理を中断
 	clearInterval(this.timer.intervalID);
 	// ドアが開いた音が終わるのを待ってから、ゲームオーバーページへ移動
-	setTimeout('window.location.href = "./gameover1.htm"', 800);
+	setTimeout('window.location.href = "./gameover1.htm#score' + this.userData.score + '_' + this.userData.score2 + '"', 800);
 }
 
 // ノックフェーズからオープンフェーズへの移行
@@ -232,12 +228,13 @@ Pinpon_dash.change_knock_to_open_fase = function() {
 	this.current_character = this.character2;
 
 	// 「ノック」ボタンを「ドアを開ける」ボタンに書き換える
-	document.getElementById("user-action-button").value = "[あける]";
+	document.getElementById("user-action-button").value = "あける";
 }
 
 // オープンフェーズからノックフェーズへの移行
 Pinpon_dash.change_open_to_knock_fase = function() {
 	this.check_is_non_open_door(); // 未開封のドアのチェック
+	this.userData.score2 += this.userData.opened_times.length;
 
 	// 押したノック、オープンボタンの情報を初期化
 	this.userData.knocked_times = new Array();
@@ -262,8 +259,6 @@ Pinpon_dash.change_open_to_knock_fase = function() {
 // ゲームのレベルがアップ
 Pinpon_dash.level_up = function() {
 	var bpm = Math.round(this.userData.score * 1.25) + 120;
-//	this.audio.bgm.pause();
-//	this.audio.bgm.currentTime = 0;
 	this.audio.bgm = new Audio("bgm/bgm_bpm" + bpm + ".mp3");
 	this.timer.loop_of_msec = 120 * 2000.0 / bpm;
 	this.audio.bgm.play();
@@ -282,7 +277,7 @@ Pinpon_dash.check_is_non_open_door = function() {
 // 開いていないドアがあった時のエフェクト
 Pinpon_dash.effect_unopen_door = function() {
 	Pinpon_dash.audio.bgm.pause();
-	window.location.href = "./gameover2.htm";
+	window.location.href = ("./gameover2.htm#score" + this.userData.score + "_" + this.userData.score2);
 }
 
 // render game view
