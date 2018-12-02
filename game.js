@@ -170,6 +170,11 @@ Pinpon_dash.change_phase = function() {
 	Pinpon_dash.timer.now_msec = 0; // 初期化
 	// ノック、オープンのフラグを切り替え
 	this.fase.knock_or_open_flag *= -1;
+
+	// reset bgm (not too clean)
+	this.audio.bgm.volume = 0;
+	this.audio.bgm.currentTime = 0;
+	setTimeout("Pinpon_dash.audio.bgm.volume = 1", 500);
 }
 
 // ユーザーがボタンを押したことで呼ばれる関数
