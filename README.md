@@ -32,14 +32,14 @@ Unfortunately, a small audio desynchronization bug makes it difficult to keep th
 
 ## Video
 
-[Trailer](https://youtu.be/GKgXORtnHEE)
+[![Trailer](http://img.youtube.com/vi/GKgXORtnHEE/0.jpg)](https://youtu.be/GKgXORtnHEE)
 
 ## Credits
 
-Masaaki Fukunaga (福永正明): Programming support
-Hiroto Morokuma (諸熊 浩人): Programming
-Long Nguyen Huu: Programming
-Yasuhiro Chida (千田泰宏): Promotional movie, audio
-Haruka Kajikawa (梶川晴香): Animation, staff
+* Masaaki Fukunaga (福永正明): Programming support
+* Hiroto Morokuma (諸熊 浩人): Programming
+* Long Nguyen Huu: Programming
+* Yasuhiro Chida (千田泰宏): Promotional movie, audio
+* Haruka Kajikawa (梶川晴香): Animation, staff
 
 ... and everyone contributed a bit to game design!
