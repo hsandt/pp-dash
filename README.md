@@ -1,6 +1,6 @@
 # P.P. Dash
 
-This game was made as part of the Global Game Jam 2015 at chika-ba, Japan ([see entry](https://globalgamejam.org/2015/games/p-p-dash)). To play it, either download a copy of the repository and run `index.htm`, or go to the [itch.io page](https://hsandt.itch.io/pp-dash).
+This game was made as part of the Global Game Jam 2015 at chika-ba, Japan ([see entry](https://globalgamejam.org/2015/games/p-p-dash)). To play it, either download a copy of the repository and run `index.html`, or go to the [itch.io page](https://hsandt.itch.io/pp-dash).
 
 ## Rules
 
@@ -17,7 +17,7 @@ It is possible to see the game either as cooperative or competitive:
 
 ## Start game
 
-Open index.htm in a browser (with Javascript active).
+Open index.html in a browser (with Javascript active).
 
 * Click on the 1st line (ゲームをはじめる) to open the game page. Then click on the right button (スタート) to start the game.
 

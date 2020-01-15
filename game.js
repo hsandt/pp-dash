@@ -262,7 +262,7 @@ Pinpon_dash.effect_open_non_knocked_door = function() {
 	// ゲームオーバーが確定したのでタイマー処理を中断
 	clearInterval(this.timer.intervalID);
 	// ドアが開いた音が終わるのを待ってから、ゲームオーバーページへ移動
-	setTimeout('window.location.href = "./gameover1.htm#score' + this.userData.score + '_' + this.userData.score2 + '"', 800);
+	setTimeout('window.location.href = "./gameover1.html#score' + this.userData.score + '_' + this.userData.score2 + '"', 800);
 }
 
 // ノックフェーズからオープンフェーズへの移行
@@ -331,7 +331,7 @@ Pinpon_dash.check_is_non_open_door = function() {
 // 開いていないドアがあった時のエフェクト
 Pinpon_dash.effect_unopen_door = function() {
 	Pinpon_dash.audio.bgm.pause();
-	window.location.href = ("./gameover2.htm#score" + this.userData.score + "_" + this.userData.score2);
+	window.location.href = ("./gameover2.html#score" + this.userData.score + "_" + this.userData.score2);
 }
 
 // Render current character

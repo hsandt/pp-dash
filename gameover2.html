@@ -21,8 +21,8 @@
 
 <script type="text/javascript"><!--
 window.onload = function() {
-	var missed_unknocked_door = new Audio("wav/missed_unknocked_door.mp3");
-	missed_unknocked_door.play();
+	var missed_non_open = new Audio("wav/missed_non_open.mp3");
+	missed_non_open.play();
 	var score = window.location.hash.replace(/#?score(\d+)_(\d+)/, "$1、$2");
 	document.getElementById("score").innerHTML = score;
 }
@@ -34,11 +34,11 @@ window.onload = function() {
 
 <section id="message">
 <h1>GAME OVER</h1>
-<p>うわぁぁ！雷おじさんだぁぁぁ！</p>
+<p>ドアを開け忘れてたよぉ～ん</p>
 </section><!-- /message -->
 
 <div id="game-over-logo">
-<img alt="雷おじさんの画像" src="img/kaminari_ojisan.png" width="400" height="710" />
+<img src="img/lose02.png" width="362px" height="627px" alt="落ち込んでいる女の子の写真。" />
 </div><!-- /game-over-logo -->
 
 <section id="game-score">
@@ -47,8 +47,8 @@ window.onload = function() {
 
 <nav id="game-menu">
 <ul>
-<li><a href="game.htm">もう一度プレイ</a></li>
-<li><a href="./index.htm">ゲームをやめる</a></li>
+<li><a href="game.html">もう一度プレイ</a></li>
+<li><a href="index.html">ゲームをやめる</a></li>
 </ul>
 </nav><!-- /game-menu -->
 
