@@ -4,6 +4,8 @@ This game was made as part of the Global Game Jam 2015 at chika-ba, Japan ([see 
 
 To play, either download a copy of the repository and run `index.html`, or go to the [itch.io page](https://hsandt.itch.io/pp-dash).
 
+The branch `ggj2015` keeps the source of the game as it was released for the game jam.
+
 ## Rules
 
 P.P. Dash is a rhythm game for 2 players controlling 2 kids playing Ring and run at the *Knock Hotel*. During a round, player A sets a rhythm by knocking on certain doors in a row, then player B must repeat the pattern by opening the same doors, a la *Simon Says*.
